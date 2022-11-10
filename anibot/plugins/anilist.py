@@ -266,7 +266,7 @@ async def dictionary_cmd(client: Client, message: Message, mdata: dict):
     result = requests.get(dicti_url)
     nai_text = result.json()
     long_text = nai_text['results']['definitions']
-    dictionaryx = await client.send_text(gid, img, text=long_text)
+    dictionaryx = await client.send_text(gid, text=long_text)
 @anibot.on_message(filters.command(["anime", f"anilist{BOT_NAME}"], prefixes=trg))
 @control_user
 async def anime_cmd(client: Client, message: Message, mdata: dict):
