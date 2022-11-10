@@ -246,6 +246,27 @@ async def character_cmd(client: Client, message: Message, mdata: dict):
     await asyncio.sleep(180)
     return await characterx.delete()
 
+@anibot.on_message(filters.command(["dictionary", f"dictionary{BOT_NAME}"], prefixes=trg))
+@control_user
+async def dictionary_cmd(client: Client, message: Message, mdata: dict):
+    text = mdata['text'].split(" ", 1)
+    gid = mdata['chat']['id']
+    user = mdata['from_user']['id']
+    find_gc = await DC.find_one({'_id': gid})
+    if find_gc is not None and 'dictionary' in find_gc['cmd_list'].split():
+        return   
+    if len(text)==1:
+        k = await message.reply_text("Please give a query to search about\nexample: `/dictionary Sesquipedalian`")
+        await asyncio.sleep(5)
+        return await k.delete()
+    query = text[1]
+    dicti_query = args[1]
+    dicti_query = dicti_query.replace(" ","%20")
+    dicti_url = f"https://api.safone.me/dictionary?query={dicti_query}"
+    result = requests.get(dicti_url)
+    nai_text = result.json()
+    long_text = nai_text['results']['definitions']
+    dictionaryx = await client.send_text(gid, img, text=long_text)
 @anibot.on_message(filters.command(["anime", f"anilist{BOT_NAME}"], prefixes=trg))
 @control_user
 async def anime_cmd(client: Client, message: Message, mdata: dict):
