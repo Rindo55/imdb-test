@@ -250,6 +250,7 @@ async def character_cmd(client: Client, message: Message, mdata: dict):
 @control_user
 async def dictionary_cmd(client: Client, message: Message, mdata: dict):
     text = mdata['text'].split(" ", 1)
+    args = message.text.split(" ", 1)
     gid = mdata['chat']['id']
     user = mdata['from_user']['id']
     find_gc = await DC.find_one({'_id': gid})
