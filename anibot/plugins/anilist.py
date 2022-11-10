@@ -264,9 +264,8 @@ async def dictionary_cmd(client: Client, message: Message, mdata: dict):
     dicti_query = dicti_query.replace(" ","%20")
     dicti_url = f"https://api.safone.me/dictionary?query={dicti_query}"
     result = requests.get(dicti_url)
-    nai_text = result.json()
-    long_text = nai_text['results']['definitions']
-    dictionaryx = await client.reply_text(text=long_text)
+    nai_text = result.text
+    dictionaryx = await client.reply_text(text=nai_text)
 
 @anibot.on_message(filters.command(["anime", f"anilist{BOT_NAME}"], prefixes=trg))
 @control_user
