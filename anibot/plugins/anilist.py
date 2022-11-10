@@ -264,8 +264,9 @@ async def dictionary_cmd(client: Client, message: Message, mdata: dict):
     query = text[1]
     dicti_query = args[1]
     api = SafoneAPI()
-    resp = await api.google("{dicti_query}")
-    long_text = resp.results.text
+    resp = await api.dictionary("{dicti_query}")
+    longf = resp.results
+    long_text = longf.text
     dictionaryx = await message.reply_text(text=long_text)
 
 @anibot.on_message(filters.command(["anime", f"anilist{BOT_NAME}"], prefixes=trg))
