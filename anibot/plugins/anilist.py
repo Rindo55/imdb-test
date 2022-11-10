@@ -12,6 +12,7 @@ import time
 import random
 import re
 import os
+from SafoneAPI import SafoneAPI
 from pyrogram import filters, Client
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, Message
 from pyrogram.errors import UserNotParticipant
@@ -262,11 +263,9 @@ async def dictionary_cmd(client: Client, message: Message, mdata: dict):
         return await k.delete()
     query = text[1]
     dicti_query = args[1]
-    dicti_query = dicti_query.replace(" ","%20")
-    dicti_url = f"https://api.safone.me/dictionary?query={dicti_query}"
-    result = requests.get(dicti_url)
-    nai_text = result.json()
-    long_text = nai_text['results']['definitions']
+    api = SafoneAPI()
+    resp = await api.google("{dicti_query}")
+    long_text = resp.results.text
     dictionaryx = await message.reply_text(text=long_text)
 
 @anibot.on_message(filters.command(["anime", f"anilist{BOT_NAME}"], prefixes=trg))
